@@ -4,13 +4,14 @@
       ul {
         padding: 0;
       }
-      
+
       #deck {
         margin: auto;
         position: absolute;
         top: 0; left: 0; bottom: 0; right: 0;
         text-align: center;
         list-style: none;
+        font-family: monospace;
       }
 
       #deck li {
@@ -22,11 +23,11 @@
       }
 
       #deck li[count="2"]::after {
-        content: " x 2"
+        content: " \00D7  2"
       }
 
       #deck li[count="1"]::after {
-        content: " x 1"
+        content: " \00D7  1"
       }
 
       #deck li[count="0"]{
@@ -56,7 +57,7 @@
       <li count="2">Guardian of Kings</li>
       <li count="1">Lay on Hands</li>
       <li count="1">Ragnaros the Firelord</li>
-      <li count="2">Alexstrasza</li>
+      <li count="1">Alexstrasza</li>
       <!-- Edit section above to match your deck -->
     </ul>
     </div>

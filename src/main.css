@@ -8,6 +8,7 @@ ul {
   top: 0; left: 0; bottom: 0; right: 0;
   text-align: center;
   list-style: none;
+  font-family: monospace;
 }
 
 #deck li {
@@ -19,11 +20,11 @@ ul {
 }
 
 #deck li[count="2"]::after {
-  content: " x 2"
+  content: " \00D7  2"
 }
 
 #deck li[count="1"]::after {
-  content: " x 1"
+  content: " \00D7  1"
 }
 
 #deck li[count="0"]{
