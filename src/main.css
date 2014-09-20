@@ -1,0 +1,31 @@
+ul {
+  padding: 0;
+}
+
+#deck {
+  margin: auto;
+  position: absolute;
+  top: 0; left: 0; bottom: 0; right: 0;
+  text-align: center;
+  list-style: none;
+}
+
+#deck li {
+  padding: 3px 0;
+}
+
+#deck li:hover {
+  background-color: #AAA;
+}
+
+#deck li[count="2"]::after {
+  content: " x 2"
+}
+
+#deck li[count="1"]::after {
+  content: " x 1"
+}
+
+#deck li[count="0"]{
+  display:none;
+}

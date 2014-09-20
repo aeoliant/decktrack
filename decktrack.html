@@ -1,0 +1,81 @@
+<html>
+  <head>
+    <style>
+      ul {
+        padding: 0;
+      }
+      
+      #deck {
+        margin: auto;
+        position: absolute;
+        top: 0; left: 0; bottom: 0; right: 0;
+        text-align: center;
+        list-style: none;
+      }
+
+      #deck li {
+        padding: 3px 0;
+      }
+
+      #deck li:hover {
+        background-color: #AAA;
+      }
+
+      #deck li[count="2"]::after {
+        content: " x 2"
+      }
+
+      #deck li[count="1"]::after {
+        content: " x 1"
+      }
+
+      #deck li[count="0"]{
+        display:none;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+    <ul id="deck">
+      <!-- Edit section below to match your deck -->
+      <li count="2">Redemption</li>
+      <li count="2">Equality</li>
+      <li count="2">Ironbeak Owl</li>
+      <li count="2">Wild Pyromancer</li>
+      <li count="2">Aldor Peacekeeper</li>
+      <li count="2">Harvest Golem</li>
+      <li count="2">Truesilver Champion</li>
+      <li count="2">Consecration</li>
+      <li count="1">Hammer of Wrath</li>
+      <li count="1">Faceless Manipulator</li>
+      <li count="1">Loatheb</li>
+      <li count="2">Sludge Belcher</li>
+      <li count="1">Cairne Bloodhoof</li>
+      <li count="2">Sunwalker</li>
+      <li count="1">Sylvanas Windrunner</li>
+      <li count="2">Guardian of Kings</li>
+      <li count="1">Lay on Hands</li>
+      <li count="1">Ragnaros the Firelord</li>
+      <li count="2">Alexstrasza</li>
+      <!-- Edit section above to match your deck -->
+    </ul>
+    </div>
+    <script>
+      // On click, decrement the card.
+      // CSS handles displaying the count (or hiding the card if count is 0)
+      var onClickHandler = function() {
+        var count = parseInt(this.getAttribute("count"));
+        count = count - 1;
+        this.setAttribute("count", count);
+      };
+
+      var deck = document.getElementById("deck");
+
+      var numChildren = deck.children.length;
+      var i = 0;
+      for (; i < numChildren; i++) {
+        deck.children[i].onclick = onClickHandler;
+      }
+    </script>
+  </body>
+</html>
