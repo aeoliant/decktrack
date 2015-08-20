@@ -12,6 +12,7 @@
         text-align: center;
         list-style: none;
         font-family: monospace;
+        font-size: 30px;
       }
 
       #deck li {
@@ -33,50 +34,88 @@
       #deck li[count="0"]{
         display:none;
       }
+      #deck li.big {
+        background-color: #444
+      }
+      #deck li[cost="10"] {
+        background-color: #555
+      }
+      #deck li[cost="9"] {
+        background-color: #666
+      }
+      #deck li[cost="8"] {
+        background-color: #777
+      }
+      #deck li[cost="7"] {
+        background-color: #888
+      }
+      #deck li[cost="6"] {
+        background-color: #999
+      }
+      #deck li[cost="5"] {
+        background-color: #aaa
+      }
+      #deck li[cost="4"] {
+        background-color: #bbb
+      }
+      #deck li[cost="3"] {
+        background-color: #ccc
+      }
+      #deck li[cost="2"] {
+        background-color: #ddd
+      }
+      #deck li[cost="1"] {
+        background-color: #eee
+      }
+      #deck li[cost="0"] {
+        background-color: #fff
+      }
     </style>
   </head>
   <body>
     <div>
     <ul id="deck">
       <!-- Edit section below to match your deck -->
-      <li count="2">Redemption</li>
-      <li count="2">Equality</li>
-      <li count="2">Ironbeak Owl</li>
-      <li count="2">Wild Pyromancer</li>
-      <li count="2">Aldor Peacekeeper</li>
-      <li count="2">Harvest Golem</li>
-      <li count="2">Truesilver Champion</li>
-      <li count="2">Consecration</li>
-      <li count="1">Hammer of Wrath</li>
-      <li count="1">Faceless Manipulator</li>
-      <li count="1">Loatheb</li>
-      <li count="2">Sludge Belcher</li>
-      <li count="1">Cairne Bloodhoof</li>
-      <li count="2">Sunwalker</li>
-      <li count="1">Sylvanas Windrunner</li>
-      <li count="2">Guardian of Kings</li>
-      <li count="1">Lay on Hands</li>
-      <li count="1">Ragnaros the Firelord</li>
-      <li count="1">Alexstrasza</li>
+      <li count="1" cost="10">Deathwing</li>
       <!-- Edit section above to match your deck -->
+      <li id="total">Total = 30</li>
     </ul>
     </div>
+    <div id="lastPlayed">
+    </div>
     <script>
-      // On click, decrement the card.
-      // CSS handles displaying the count (or hiding the card if count is 0)
+      var sum = 0;
+      var setSum = function() {
+        var total = document.getElementById("total");
+        total.textContent = "Total = " + sum;
+      };
+      var setLastPlayed = function(text) {
+        var lastPlayed = document.getElementById("lastPlayed");
+        lastPlayed.removeChild(lastPlayed.firstChild);
+        lastPlayed.appendChild(document.createTextNode(text));
+        console.log(text);
+      };
       var onClickHandler = function() {
         var count = parseInt(this.getAttribute("count"));
         count = count - 1;
         this.setAttribute("count", count);
+        sum--;
+        setSum();
+        setLastPlayed(this.textContent);
       };
 
       var deck = document.getElementById("deck");
 
       var numChildren = deck.children.length;
       var i = 0;
-      for (; i < numChildren; i++) {
+      for (; i < numChildren - 1; i++) {
         deck.children[i].onclick = onClickHandler;
+        sum += parseInt(deck.children[i].getAttribute("count"), 10);
+        if (parseInt(deck.children[i].getAttribute("cost"), 10) > 10) {
+          deck.children[i].className = deck.children[i].className + ' big';
+        }
       }
+      setSum();
     </script>
   </body>
 </html>
