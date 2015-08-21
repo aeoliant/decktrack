@@ -34,41 +34,42 @@
       #deck li[count="0"]{
         display:none;
       }
+
       #deck li.big {
-        background-color: #444
-      }
-      #deck li[cost="10"] {
-        background-color: #555
-      }
-      #deck li[cost="9"] {
-        background-color: #666
+        background-color: #990099
       }
       #deck li[cost="8"] {
-        background-color: #777
+        background-color: #CC99FF
       }
       #deck li[cost="7"] {
-        background-color: #888
+        background-color: #0099FF
       }
       #deck li[cost="6"] {
-        background-color: #999
+        background-color: #99CCCC
       }
       #deck li[cost="5"] {
-        background-color: #aaa
+        background-color: #99CC66
       }
       #deck li[cost="4"] {
-        background-color: #bbb
+        background-color: #CCFF99
       }
       #deck li[cost="3"] {
-        background-color: #ccc
+        background-color: #FFFF99
       }
       #deck li[cost="2"] {
-        background-color: #ddd
+        background-color: #FFCC33
       }
       #deck li[cost="1"] {
-        background-color: #eee
+        background-color: #FF9966
       }
       #deck li[cost="0"] {
-        background-color: #fff
+        background-color: #FF6666
+      }
+
+      #lastPlayed {
+        font-size: 15px;
+        padding-top:0 !important;
+        padding-bottom:0 !important;
       }
     </style>
   </head>
@@ -79,9 +80,8 @@
       <li count="1" cost="10">Deathwing</li>
       <!-- Edit section above to match your deck -->
       <li id="total">Total = 30</li>
+      <li id="lastPlayed"></li>
     </ul>
-    </div>
-    <div id="lastPlayed">
     </div>
     <script>
       var sum = 0;
@@ -91,10 +91,11 @@
       };
       var setLastPlayed = function(text) {
         var lastPlayed = document.getElementById("lastPlayed");
-        lastPlayed.removeChild(lastPlayed.firstChild);
-        lastPlayed.appendChild(document.createTextNode(text));
-        console.log(text);
-      };
+        while(lastPlayed.childNodes.length >= 1) {
+          lastPlayed.removeChild(lastPlayed.firstChild);
+        }
+        lastPlayed.appendChild(lastPlayed.ownerDocument.createTextNode("Last Played = " + text));
+      }
       var onClickHandler = function() {
         var count = parseInt(this.getAttribute("count"));
         count = count - 1;
@@ -108,10 +109,10 @@
 
       var numChildren = deck.children.length;
       var i = 0;
-      for (; i < numChildren - 1; i++) {
+      for (; i < numChildren - 2; i++) {
         deck.children[i].onclick = onClickHandler;
         sum += parseInt(deck.children[i].getAttribute("count"), 10);
-        if (parseInt(deck.children[i].getAttribute("cost"), 10) > 10) {
+        if (parseInt(deck.children[i].getAttribute("cost"), 10) > 8) {
           deck.children[i].className = deck.children[i].className + ' big';
         }
       }
