@@ -23,6 +23,14 @@
         background-color: #AAA;
       }
 
+      #deck li[count="4"]::after {
+        content: " \00D7  4"
+      }
+
+      #deck li[count="3"]::after {
+        content: " \00D7  3"
+      }
+
       #deck li[count="2"]::after {
         content: " \00D7  2"
       }
@@ -36,19 +44,19 @@
       }
 
       #deck li.big {
-        background-color: #990099
+        background-color: rgba(154, 18, 179, 0.65)
       }
       #deck li[cost="8"] {
         background-color: #CC99FF
       }
       #deck li[cost="7"] {
-        background-color: #0099FF
+        background-color: rgba(0, 153, 255, 0.7);
       }
       #deck li[cost="6"] {
-        background-color: #99CCCC
+        background-color: rgba(3, 201, 169, 0.55)
       }
       #deck li[cost="5"] {
-        background-color: #99CC66
+        background-color: rgba(53, 204, 102, 0.7)
       }
       #deck li[cost="4"] {
         background-color: #CCFF99
@@ -57,13 +65,13 @@
         background-color: #FFFF99
       }
       #deck li[cost="2"] {
-        background-color: #FFCC33
+        background-color: rgba(247, 202, 24, 0.55)
       }
       #deck li[cost="1"] {
-        background-color: #FF9966
+        background-color: rgba(249, 105, 14, 0.55)
       }
       #deck li[cost="0"] {
-        background-color: #FF6666
+        background-color: rgba(246, 71, 71, 0.65)
       }
 
       #lastPlayed {
@@ -77,6 +85,27 @@
     <div>
     <ul id="deck">
       <!-- Edit section below to match your deck -->
+      <li count="2" cost="0">Innervate</li>
+      <li count="2" cost="2">Wild Growth</li>
+      <li count="2" cost="2">Wrath</li>
+      <li count="1" cost="3">Healing Touch</li>
+      <li count="1" cost="3">Big Game Hunter</li>
+      <li count="1" cost="4">Poison Seeds</li>
+      <li count="2" cost="4">Swipe</li>
+      <li count="2" cost="4">Keeper of the Grove</li>
+      <li count="2" cost="5">Starfall</li>
+      <li count="1" cost="5">Antique Healbot</li>
+      <li count="2" cost="5">Sludge Belcher</li>
+      <li count="1" cost="6">Cairne Bloodhoof</li>
+      <li count="1" cost="6">Emperor Thaurissan</li>
+      <li count="1" cost="6">Sylvanas Windrunner</li>
+      <li count="2" cost="7">Ancient of Lore</li>
+      <li count="1" cost="7">Dr. Boom</li>
+      <li count="1" cost="7">Troggzor the Earthinator</li>
+      <li count="1" cost="8">Ragnaros the Firelord</li>
+      <li count="1" cost="9">Tree of Life</li>
+      <li count="1" cost="9">Nefarian</li>
+      <li count="1" cost="9">Ysera</li>
       <li count="1" cost="10">Deathwing</li>
       <!-- Edit section above to match your deck -->
       <li id="total">Total = 30</li>
@@ -84,25 +113,58 @@
     </ul>
     </div>
     <script>
-      var sum = 0;
+    var history = [];
+    var sum = 0;
+    var setLastPlayed = function(text, cost, push, prefix) {
+      prefix = prefix || "Last Played = ";
+      if (text === undefined) {
+        return;
+      }
+      var lastPlayed = document.getElementById("lastPlayed");
+      while(lastPlayed.childNodes.length >= 1) {
+        lastPlayed.removeChild(lastPlayed.firstChild);
+      }
+      lastPlayed.appendChild(lastPlayed.ownerDocument.createTextNode(prefix + text));
+      if (push) {
+        history.push({"text": text, "cost": cost});
+      }
+    };
+    var undo = function() {
+      if (history.length === 0) {
+        return;
+      }
+
+      var lastPlayed = history.pop();
+      var deck = document.getElementById("deck");
+
+      var numChildren = deck.children.length;
+      var i = 0, previous = history.slice(-1)[0];
+      for (; i < numChildren - 2; i++) {
+        if (deck.children[i].textContent === lastPlayed.text) {
+          deck.children[i].setAttribute("count", 1 + parseInt(deck.children[i].getAttribute("count"), 10));
+          if (previous !== undefined) {
+            setLastPlayed(previous.text, previous.count, false);
+          } else {
+            setLastPlayed("", null, false, " ");
+          }
+          sum++;
+          setSum();
+          return;
+          }
+        }
+      };
       var setSum = function() {
         var total = document.getElementById("total");
         total.textContent = "Total = " + sum;
       };
-      var setLastPlayed = function(text) {
-        var lastPlayed = document.getElementById("lastPlayed");
-        while(lastPlayed.childNodes.length >= 1) {
-          lastPlayed.removeChild(lastPlayed.firstChild);
-        }
-        lastPlayed.appendChild(lastPlayed.ownerDocument.createTextNode("Last Played = " + text));
-      }
+
       var onClickHandler = function() {
         var count = parseInt(this.getAttribute("count"));
         count = count - 1;
         this.setAttribute("count", count);
         sum--;
         setSum();
-        setLastPlayed(this.textContent);
+        setLastPlayed(this.textContent, this.getAttribute("cost"), true);
       };
 
       var deck = document.getElementById("deck");
@@ -117,6 +179,8 @@
         }
       }
       setSum();
+      var lastPlayed = document.getElementById("lastPlayed");
+      lastPlayed.onclick = undo;
     </script>
   </body>
 </html>
